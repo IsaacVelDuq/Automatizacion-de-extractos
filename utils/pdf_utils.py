@@ -1,4 +1,4 @@
-from PyPDF2 import PdfReader,PdfWriter
+from pypdf import PdfReader, PdfWriter
 from datetime import datetime
 import re,os
 
@@ -21,7 +21,7 @@ def save_subpdf(writer,data,folder):
     unique_folder= os.path.join(company_folder,f"{data['account'][-4:]}_{clean_name(data['company'])}_{clean_name(data['client'])}")
     os.makedirs(unique_folder,exist_ok=True)
     # Construir ruta del archivo 
-    pdf_name = f"{data['account'][-4:]}_{clean_name(data['company'])}_{clean_name(data['client'])}.pdf"
+    pdf_name = f"{data['account'][-4:]}.pdf"
     path = os.path.join(
     unique_folder,
     pdf_name)
@@ -129,8 +129,9 @@ def split_pdf(file, folder="output/extractos"):
         return subpdfs  
     
     except FileNotFoundError:
-        print(f"Error, no se encontró el archivo {file}")
+        raise Exception(f"Error, no se encontró el archivo \n  {file}")
 
     except Exception as e:
-        print(f"Ocurrio un error \n {e}")
+        raise Exception(f"Ocurrio un error \n {e}")
+    
 
